@@ -58,7 +58,7 @@ Bool checking_word_only_number(const char* string) {
 
 void convert_to_words(const char* string) {
     if (checking_word_only_number(string) == False) {
-        perror("convert_to_words just works witn string numbers\n");
+        printf("convert_to_words just works witn string numbers\n");
         return;
     }
 
