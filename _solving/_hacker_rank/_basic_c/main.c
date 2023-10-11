@@ -100,10 +100,6 @@ void digital_frequency(const char* string) {
 
     for (int i = 48; i < 58; ++i) {
         printf("%c - %d\n", (char)i, matrix[i][0]);
-        if (i == 57) {
-            printf("\n");
-            break;
-        }
     }
 }
 
