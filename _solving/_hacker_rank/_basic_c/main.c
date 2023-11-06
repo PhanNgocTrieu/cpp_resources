@@ -13,6 +13,25 @@ enum BooleanRetcode{
     True
 };
 
+void calculate_the_maximum(int n, int k) {
+  int max_and = 0;
+  int max_or = 0;
+  int max_xor = 0;
+  for (int i = 1; i <= n; ++i) {
+      for (int j = i + 1; j <= n; ++j) {
+          int and_ = i & j;
+          int or_ = i | j;
+          int xor_ = i ^ j;
+          if (and_ > max_and && and_ < k) max_and = and_;
+          if (or_ > max_or && or_ < k) max_or = or_;
+          if (xor_ > max_xor && xor_ < k) max_xor = xor_;
+      }
+  }
+  printf("%d\n", max_and);
+  printf("%d\n", max_or);
+  printf("%d\n", max_xor);
+}
+
 typedef enum BooleanRetcode Bool;
 
 char* readline() {
