@@ -2,12 +2,12 @@
 #define _VARIABLE_H_
 
 #include <iostream>
-#include "Logger.hpp"
+#include "../../Models/inc/Logger.h"
 
 class Account {
     public:
         Account(const std::string _usr, const std::string _pass)
-        : m_logger(LoggerService::getInstance("Account")
+        : m_logger(LoggerService::getInstance("Account"))
         , m_usrName(_usr)
         , m_password(_pass)
         {

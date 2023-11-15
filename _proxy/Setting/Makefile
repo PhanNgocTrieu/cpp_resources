@@ -5,7 +5,7 @@ CXX := g++
 CXXFLAGS := -Wall -Wextra -std=c++11
 
 # Source files
-SRCS := $(wildcard *.cpp)
+SRCS := $(wildcard *.cpp) $(../wildcard *.cpp)
 OBJS := $(SRCS:.cpp=.o)
 
 # Executable name
@@ -17,8 +17,10 @@ EXEC := setting
 
 # all: ../Common/Variables.hpp ../Sockets/SocketService.hpp #$(COMMON_SRC) ${MODEL_SRC} ${SOCKET_SRC}
 # 	g++ -o setting main.cpp
-
-build: $(OBJS)
+all: ../Common/Variables.hpp ../Sockets/SocketService.hpp #$(COMMON_SRC) ${MODEL_SRC} ${SOCKET_SRC}
+	g++ -o ${EXEC} main.cpp
+	
+build: $(OBJS) ../Common/Variables.hpp ../Sockets/SocketService.hpp
 	$(CXX) $(CXXFLAGS) $(OBJS) -o $(EXEC)
 
 
