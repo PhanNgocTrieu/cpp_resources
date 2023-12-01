@@ -192,7 +192,7 @@ void event_loop_run(event_loop_t *el)
     /* Initialize the attribute of thread */
     pthread_attr_init(&attr);
 
-    /* Detach the attribue of thread */
+    /* Detach the attribute of thread */
     pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_DETACHED);
 
     /* Create the thread with function object of event_loop_thread */
