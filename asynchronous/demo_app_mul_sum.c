@@ -17,7 +17,6 @@ int arr[] = {1,2,3,4,5,6,7,8,9,10,11,12,13};
                 arr[]
                 size
             }
-    
     Another problem: when passing an object so how can we know which object we should cast
         => We need a wrapper
 */
