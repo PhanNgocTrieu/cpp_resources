@@ -36,7 +36,7 @@ struct event_loop_ {
      *          attibutes in mutal exclusive way
      * 
      */
-    pthread_mutex_t ev_loop_mutext;
+    pthread_mutex_t ev_loop_mutex;
     /**
      * @brief State of event loop
      * 
