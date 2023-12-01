@@ -26,15 +26,15 @@ typedef enum {
 struct event_loop_ {
     /**
      * @brief Head to the start of the task array
-     * 
+     *
      */
     struct task_ *task_array_head;
 
     /**
-     * @brief   Mutext to enforce Mutual exclusion enqueue/dequeue
+     * @brief   Mutex to enforce Mutual exclusion enqueue/dequeue
      *          Operation in task array. Also used to update event loop
-     *          attibutes in mutal exclusive way
-     * 
+     *          attributes in mutual exclusive way
+     *
      */
     pthread_mutex_t ev_loop_mutex;
     /**
@@ -44,7 +44,7 @@ struct event_loop_ {
     EV_LOOP_STATE ev_loop_state;
 
     /**
-     * @brief CV to suspened event loop thread
+     * @brief CV to suspend event loop thread
      * 
      */
     pthread_cond_t ev_loop_cv;
