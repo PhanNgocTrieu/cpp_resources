@@ -75,15 +75,15 @@ event_loop_thread(void *arg)
         sleep(1);
 
         /* lock the event loop mutex */
-        pthread_mutex_lock(&el->ev_loop_mutext);
+        pthread_mutex_lock(&el->ev_loop_mutex);
 
-        /* Event loop has no task to perfom -> set state to IDLE */
+        /* Event loop has no task to perform -> set state to IDLE */
         el->ev_loop_state = EV_LOOP_IDLE;
 
         // Doing this loop make us more efficient because we don't need to fetch regularly
         while ((_task = event_loop_get_next_task_to_run(el)) == NULL)
         {
-            pthread_cond_wait(&el->ev_loop_cv, &el->ev_loop_mutext);
+            pthread_cond_wait(&el->ev_loop_cv, &el->ev_loop_mutex);
             /*
             When task is empty, we waiting here for receive signals
             On receiving signal, go back, fetch the new task from task array
@@ -94,7 +94,7 @@ event_loop_thread(void *arg)
         el->ev_loop_state = EV_LOOP_BUSY;
 
         /* Unlock mutex when done with task array */
-        pthread_mutex_unlock(&el->ev_loop_mutext);
+        pthread_mutex_unlock(&el->ev_loop_mutex);
 
         /* Fire the task */
         el->current_task = _task;
@@ -113,7 +113,7 @@ void event_loop_init(event_loop_t *el)
     /* Set null to head of task array */
     el->task_array_head = NULL;
     /* Set null to the mutex of event loop */
-    pthread_mutex_init(&el->ev_loop_mutext, NULL);
+    pthread_mutex_init(&el->ev_loop_mutex, NULL);
     /* Set default state of event loop */
     el->ev_loop_state = EV_LOOP_IDLE;
     /* Set null to cond thread */
@@ -151,20 +151,20 @@ void event_loop_add_task_in_task_array(
 static void
 event_loop_schedule_task(event_loop_t *el, task_t *task)
 {
-    pthread_mutex_lock(&el->ev_loop_mutext);
+    pthread_mutex_lock(&el->ev_loop_mutex);
 
     event_loop_add_task_in_task_array(el, task);
 
     if (el->ev_loop_state == EV_LOOP_BUSY)
     {
         /* event loop in BUSY state -> we done */
-        pthread_mutex_unlock(&el->ev_loop_mutext);
+        pthread_mutex_unlock(&el->ev_loop_mutex);
         return;
     }
 
     /* event loop in IDLE state -> send the signal */
     pthread_cond_signal(&el->ev_loop_cv);
-    pthread_mutex_unlock(&el->ev_loop_mutext);
+    pthread_mutex_unlock(&el->ev_loop_mutex);
 }
 
 task_t *
