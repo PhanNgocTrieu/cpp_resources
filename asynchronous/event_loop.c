@@ -6,6 +6,9 @@
 #include <unistd.h>
 #include <stdlib.h>
 
+#define LOG_INFO(N) \
+    printf("[\033[1;30mINFO\033[0m][\033[1;32m%s\033[0m][%d]: %s", __FUNCTION__, __LINE__, N); \
+
 /**
  * @brief This method would move to the next task, example as below:
  *          [task1][task2][task3][task4]
@@ -83,6 +86,7 @@ event_loop_thread(void *arg)
         // Doing this loop make us more efficient because we don't need to fetch regularly
         while ((_task = event_loop_get_next_task_to_run(el)) == NULL)
         {
+            LOG_INFO("Suspends State\n");
             pthread_cond_wait(&el->ev_loop_cv, &el->ev_loop_mutex);
             /*
             When task is empty, we waiting here for receive signals
@@ -98,6 +102,7 @@ event_loop_thread(void *arg)
 
         /* Fire the task */
         el->current_task = _task;
+        LOG_INFO("Perform Task\n");
         _task->cbk(_task->arg);
 
         /* Already done task -> current task set to Null */
@@ -177,6 +182,63 @@ task_create_new_job(event_loop_t *el, event_cbk cbk, void *arg)
 
     event_loop_schedule_task(el, task);
     return task;
+}
+
+bool event_loop_remove_task_in_task_array(
+    event_loop_t* el,
+    task_t* task
+) {
+    task_t* cur_task, *_prev_task = NULL, *_aft_task = NULL;
+    task_t* temp = NULL;
+    cur_task = el->task_array_head;
+    _aft_task = cur_task->right;
+    bool found = false;
+    do {
+        if (cur_task == task) {
+            temp = cur_task;
+            cur_task->left = _prev_task;
+            cur_task->right = _aft_task;
+            found = true;
+            break;
+        }
+
+        // saving the before task
+        _prev_task = cur_task;
+        // move current task to next task
+        cur_task = cur_task->right;
+        // saving the after task
+        _aft_task = cur_task->right;
+    } while (cur_task != NULL);
+
+    if (temp != NULL) free(temp);
+    return found;
+}
+
+task_t *
+task_cancel_job(event_loop_t *el, task_t* task) {
+    /* Dont kill yourself while you are still executing */
+    if (el->current_task == task ) {
+        return;
+    }
+    
+    // Lokc the EL mutex
+    pthread_mutex_lock(&el->ev_loop_mutex);
+
+    // Remove the task from EL task array
+    if (event_loop_remove_task_in_task_array(el, task)) {
+        LOG_INFO("Removed task succesful\n");
+    }
+
+    // No need send the signal becasue we remove it already
+    // pthread_cond_signal(&el->ev_loop_cv);
+    
+    // Unlock EL Mutex
+    pthread_mutex_unlock(&el->ev_loop_mutex);
+    
+    // Free the task
+    free(task);
+
+    LOG_INFO("Removed task failed - Not found task\n");
 }
 
 void event_loop_run(event_loop_t *el)
