@@ -214,7 +214,7 @@ bool event_loop_remove_task_in_task_array(
     return found;
 }
 
-task_t *
+void
 task_cancel_job(event_loop_t *el, task_t* task) {
     /* Dont kill yourself while you are still executing */
     if (el->current_task == task ) {
