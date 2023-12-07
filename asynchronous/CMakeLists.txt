@@ -12,6 +12,7 @@ add_library(event_loop STATIC event_loop.h event_loop.c)
 add_executable(demo_app demo_app.c)
 add_executable(demo_app_mul_sum demo_app_mul_sum.c)
 add_executable(demo_app_single_threaded_concurrent demo_app_single_threaded_concurrent.c)
+add_executable(demo_thread demo_thread.cpp)
 
 target_link_libraries(event_loop ${CMAKE_THREAD_LIBS_INIT})
 target_link_libraries(demo_app event_loop)
