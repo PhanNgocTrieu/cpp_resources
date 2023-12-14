@@ -1,32 +1,27 @@
 #include <iostream>
 #include <thread>
 #include <unistd.h>
-
+#include <vector>
 #include <future>
 
 class Model {
     public:
+        typedef std::function<void ()> task_type;
+
+    public:
         Model()
-        : m_thread(new std::thread(&Model::protected_function, this))
         {
+            m_tasks.emplace_back(&Model::protected_function);
+            m_tasks.emplace_back(&Model::updated_function);
+            
+            for (int i = 0; i < m_tasks.size(); ++i) {
+                m_thread = new std::thread(m_tasks[i]);
+                m_thread++;
+            }
         }
 
         ~Model() {
             // m_thread->detach();
-        }
-        void function() {
-            int count = 0;
-            while (count < 100) {
-                std::cout << std::endl << __FUNCTION__ << " - id-thread: " << std::this_thread::get_id() << std::endl;
-                std::this_thread::sleep_for(std::chrono::milliseconds(100));
-                count += 5;
-
-                // if (m_currentValue) {
-                    // std::cout << "Break here" << std::endl;
-                    // break;
-                // }
-            }
-            // std::cout << "Hello World!" << std::endl;
         }
 
         void jointable() {
@@ -55,14 +50,27 @@ class Model {
                 std::this_thread::sleep_for(std::chrono::milliseconds(100));
                 count += 5;
 
-                // if (m_currentValue) {
-                    // break;
-                // }
+                if (m_currentValue) {
+                    break;
+                }
+            }
+        }
+
+        void updated_function() {
+            int count = 0;
+            while (count < 100) {
+                std::cout << std::endl << __FUNCTION__ << " - id-thread: " << std::this_thread::get_id() << std::endl;
+                std::this_thread::sleep_for(std::chrono::milliseconds(100));
+                count += 5;
+                if (count == 50) m_currentValue = true;
             }
         }
     private: 
         std::thread* m_thread {nullptr};
         bool m_currentValue{false};
+        int m_sizeOfThread{2};
+        std::vector<task_type> m_tasks;
+        std::mutex m_mutex;
 };
 
 int main() {
