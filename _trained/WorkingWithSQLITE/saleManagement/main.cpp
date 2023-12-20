@@ -4,9 +4,10 @@
 #include <iostream>
 #include <sqlite3.h>
 #include <string>
+#include <iomanip>
 #include "SQLITE.h"
 #include "Menu.h"
-
+#include <limits>
 using namespace std;
 
 
@@ -37,7 +38,7 @@ int main()
 			{
 				cout << "Wrong choice!" << endl;
 				cin.clear();
-				cin.ignore(numeric_limits<streamsize>::max(), '\n');
+				cin.ignore(std::numeric_limits<streamsize>::max(), '\n');
 				fail = true;
 			}
 			

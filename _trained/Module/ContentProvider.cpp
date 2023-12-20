@@ -17,22 +17,10 @@ namespace Modules {
     ContentProvider::~ContentProvider() {}
 
     void ContentProvider::initialize() {
-        // Run config
-        FILE* configFile = fopen("config.ini", "r");
-        char line[500];
-        while (fgets(line, sizeof(line),configFile))
-        {
-            /* code */
-            char* tmp = strstr(line, "=");
-            if (tmp == nullptr) {
-                continue;
-            }
+        this->readContentProvider();     
+    }
 
-            char* name = &line[0];
-            char* temp = &line[0];
-            
-
-        }
+    void ContentProvider::readContentProvider() {
         
     }
     

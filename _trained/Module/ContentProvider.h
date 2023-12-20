@@ -11,11 +11,17 @@
 namespace Modules { 
 
     class ContentProvider {
-        private:
-            std::string m_sqlFileName{_SQL_FILE_CONFIG_PATH_};
-            FILE* m_fileHandle{nullptr};
-            bool m_isReady{false};
-            std::unordered_map<std::string, std::string> m_configTableMap;
+        public:
+            enum FileMode {
+                READ = 0,
+                WRITE,
+                RDWD
+            };
+
+            struct ConfigurationManager {
+                std::string m_sqlFileName{_SQL_FILE_CONFIG_PATH};
+                FileMode m_mode;
+            };
 
         public:
             static ContentProvider* getInstance();
@@ -24,9 +30,15 @@ namespace Modules {
 
         protected:
             ContentProvider();
+            void readContentProvider();
             /* Block = operator and copy object */
             ContentProvider(const ContentProvider&) = delete;
             ContentProvider& operator=(ContentProvider&&) = delete;
+
+        private:
+            std::unordered_map<std::string, std::string> m_configTableMap;
+            ConfigurationManager* m_configManager;
+            bool m_isReady{false};
     };
 };
 

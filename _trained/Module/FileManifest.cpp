@@ -37,4 +37,8 @@ namespace Modules {
         }
         
     }
+
+    void FileManifest::readContentProvider() {
+
+    }
 };
