@@ -1,1 +1,0 @@
-/usr/bin/c++     CMakeFiles/application.dir/main.cpp.o  -o application  liblibSql.a liblibLogger.a /usr/lib/x86_64-linux-gnu/libsqlite3.so 

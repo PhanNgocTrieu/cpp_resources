@@ -1,5 +1,0 @@
-/home/as/work_space/clone/cpp_resources/_trained/Module/build/CMakeFiles/rebuild_cache.dir
-/home/as/work_space/clone/cpp_resources/_trained/Module/build/CMakeFiles/edit_cache.dir
-/home/as/work_space/clone/cpp_resources/_trained/Module/build/CMakeFiles/application.dir
-/home/as/work_space/clone/cpp_resources/_trained/Module/build/CMakeFiles/libLogger.dir
-/home/as/work_space/clone/cpp_resources/_trained/Module/build/CMakeFiles/libSql.dir

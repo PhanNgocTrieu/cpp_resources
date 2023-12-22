@@ -1,2 +1,0 @@
-/usr/bin/ar qc liblibSql.a  CMakeFiles/libSql.dir/lib/SQLManagement.cpp.o
-/usr/bin/ranlib liblibSql.a
