@@ -11,13 +11,13 @@ namespace BackendLib {
                 static SQLAccessor _ins(_file);
                 return &_ins;
             }
-
+            
+            int execute_sql_commands(const std::string& _command, bool is_title = false);
             int create_table(const std::string& _command);
             int insert_table(const std::string& _command);
 
 
             const char* get_database_file_path() const;
-            int _callback(void *, int, char**, char*);
         protected:
 
         protected:
@@ -31,6 +31,7 @@ namespace BackendLib {
     };
 
     static int _callback_handle(void* data, int argc, char** argv, char** azColName);
+    static int _callback_title(void* data, int argc, char** argv, char** azColName);
 }
 
 #endif /* __SQLITE_MANAGEMENT */
