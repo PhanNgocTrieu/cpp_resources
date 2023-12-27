@@ -22,12 +22,10 @@ int main(int argc, char** argv) {
         "NameId INTEGER PRIMARY KEY AUTOINCREMENT,"
         "NAME VARCHAR(255) NOT NULL"
     ");");
-
-    accessor->execute_sql_commands("INSERT INTO DemoTable(NAME) "
-        "VALUES (\"Trieu\"), "
-        "VALUES (\"John\")"
-    );
-
+    accessor->execute_sql_commands("INSERT INTO DemoTable(NAME) VALUES (\"John\");");
+    accessor->execute_sql_commands("INSERT INTO DemoTable(NAME) VALUES (\"Lyna\");");
+    accessor->execute_sql_commands("INSERT INTO DemoTable(NAME) VALUES (\"Hanny\");");
+    
     accessor->execute_sql_commands("SELECT * FROM DemoTable LIMIT 1", true);
     accessor->execute_sql_commands("SELECT * FROM DemoTable");
 

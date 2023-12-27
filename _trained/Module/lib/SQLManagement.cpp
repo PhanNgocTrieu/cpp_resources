@@ -18,7 +18,7 @@ namespace BackendLib {
             
             WLOG_INF("Open database file successfully");
             /* Executing the command of creating table */
-            retCode = sqlite3_exec(db, _com.c_str(), _callback_handle, 0, &_errmsg);
+            retCode = sqlite3_exec(db, _com.c_str(), nullptr, 0, &_errmsg);
             if (retCode != SQLITE_OK) {
                 WLOG_ERR("Executed command: create table failed");
                 return retCode;
@@ -34,7 +34,6 @@ namespace BackendLib {
 
 
     int SQLAccessor::execute_sql_commands(const std::string& _command, bool is_title) {
-        WLOG_INF("Execute SQL commands");
         sqlite3* db;
         char* errmsg = nullptr;
         /* Open db file*/
@@ -44,7 +43,6 @@ namespace BackendLib {
             return retCode;
         }
         
-        WLOG_INF("Open database file successfully");
         /* Executing the command of creating table */
         if (is_title) {
             retCode = sqlite3_exec(db, _command.c_str(), _callback_title, 0, &errmsg);
@@ -56,8 +54,6 @@ namespace BackendLib {
             WLOG_ERR("Executed command: \"" + _command + "\": failed => " + std::string(errmsg));
             return retCode;
         }
-        WLOG_INF("Executed command: create table successfully");
-
         /* Close db file */
         sqlite3_close(db);
     }
