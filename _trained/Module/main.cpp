@@ -1,16 +1,6 @@
 #include "Logger.h"
 #include "SQLManagement.h"
 
-// class Module {
-//     public:
-//         void trace() {
-//             WLOG_INF("Hello World!");
-//         }
-
-//     private:
-//         WLOG_DEF("Module");  
-// };
-
 #define FILE_DB "./tpn.db"
 
 int main(int argc, char** argv) {
